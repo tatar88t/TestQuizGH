@@ -11,24 +11,29 @@ const App = () => {
 	
 	const [inputValue, setInputValue] = React.useState('');
 	const [repos, setRepos] = React.useState([]);
-	const [page, setPage] = React.useState('');
+	const [page, setPage] = React.useState(1);
 	const [repoPage, setRepoPage] = React.useState({});
 	const [repoPageOwner, setRepoPageOwner] = React.useState({});
 	const [totalCount, setTotalCount] = React.useState('');
 	const PER_PAGE = 10;
+	const PORTION_SIZE = 10;
 	const [pageAmount, setPageAmount] = React.useState([])
 
-	// let totalCount = repos.total_count;
-	// let pagesCount = Math.ceil(totalCount / PER_PAGE)
-
-	// let pagesCountShow =[];
 	let pagesCountShow =[];
-	// 	for (let i=1; i < pagesCount ; i++) {
-	// 		pagesCountShow.push(i)
-	// 	}
 
-		// console.log(pagesCountShow, 'pagesCountShow')
-	
+	let totalPages = Math.ceil(totalCount / PER_PAGE);
+				for (let i=1; i < totalPages ; i++) {
+					pagesCountShow.push(i)
+				}
+	// let portionCount = Math.ceil(totalPages / PORTION_SIZE);
+
+	// let [portionNum, setPortionNum] = useState(1);
+	// let leftPortionPageNum = (portionNum - 1) * PORTION_SIZE + 1;
+	// let rightPortionPageNum = portionNum * PORTION_SIZE
+
+
+
+
 	React.useEffect(() => {
 		if(!inputValue){
 			console.log('bibilo')
@@ -44,23 +49,8 @@ const App = () => {
 		setTotalCount(data.total_count)
 		 })
 		 .then(()=> {
-			 console.log(totalCount, 'total_count')
-			let totalPages = Math.ceil(totalCount / PER_PAGE);
-			console.log(totalPages)
-			// let pagesCount = Math.ceil(totalCount / PER_PAGE);
-		
-				// console.log(pagesCount, 'pagesCount')
-		
-				for (let i=1; i < totalPages ; i++) {
-					pagesCountShow.push(i)
-				}
-			console.log(pagesCountShow, 'pagesCountShow')
 			setPageAmount(pagesCountShow)
 		 } )
-
-
-
-
 
 	}, [inputValue, page, repoPage, repos])
 	//    setInputValue('');
@@ -77,7 +67,9 @@ const App = () => {
 																 PER_PAGE = {PER_PAGE} 
 																 setRepoPageOwner = {setRepoPageOwner}
 																 pageAmount = {pageAmount} 
-																 pagesCountShow ={pagesCountShow}/>} />
+																 pagesCountShow ={pagesCountShow}
+																 totalPages = {totalPages}
+																 PORTION_SIZE = {PORTION_SIZE}/>} />
 				<Route exact path = '/repo' render = {() => <RepositoryPage repoPage = {repoPage}
 																			repoPageOwner = {repoPageOwner} 
 
