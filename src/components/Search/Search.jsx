@@ -4,9 +4,10 @@ import {Link, Router} from 'react-router-dom';
 const Search = (props) => {
 
 
-	console.log(props.pageAmount)
-	const [pageAmount, setPageAmount] = React.useState([])
+	
 
+
+	console.log(props.pageAmount, 'pageAmount from props')
     return (
  
         <div className= {stl.searchResults} >
@@ -24,7 +25,7 @@ const Search = (props) => {
 				<li></li>
 			</ul>
 				<div className = {stl.pagination}>
-					{props.pagesCountShow.map(p => {
+					{props.pageAmount.map(p => {
 						return <span onClick ={(e) => {props.setPage(p)}} className = {props.page === p ? stl.activePageNum : stl.pageNum}>{p}</span>
 					})}		
 				</div>

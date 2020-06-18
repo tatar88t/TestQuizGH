@@ -13,20 +13,21 @@ const App = () => {
 	const [repos, setRepos] = React.useState([]);
 	const [page, setPage] = React.useState('');
 	const [repoPage, setRepoPage] = React.useState({});
-	const [repoPageOwner, setRepoPageOwner] = React.useState({})
+	const [repoPageOwner, setRepoPageOwner] = React.useState({});
+	const [totalCount, setTotalCount] = React.useState('');
 	const PER_PAGE = 10;
 	const [pageAmount, setPageAmount] = React.useState([])
 
-	let totalCount = repos.total_count;
-	let pagesCount = Math.ceil(totalCount / PER_PAGE)
+	// let totalCount = repos.total_count;
+	// let pagesCount = Math.ceil(totalCount / PER_PAGE)
 
+	// let pagesCountShow =[];
 	let pagesCountShow =[];
+	// 	for (let i=1; i < pagesCount ; i++) {
+	// 		pagesCountShow.push(i)
+	// 	}
 
-		for (let i=1; i < 10 ; i++) {
-			pagesCountShow.push(i)
-		}
-
-		console.log(pagesCountShow, 'pagesCountShow')
+		// console.log(pagesCountShow, 'pagesCountShow')
 	
 	React.useEffect(() => {
 		if(!inputValue){
@@ -38,9 +39,29 @@ const App = () => {
   		  return response.json();
   		})
   		.then((data) => {
-		console.log(data);
+		
 		setRepos(data.items);
-		 });
+		setTotalCount(data.total_count)
+		 })
+		 .then(()=> {
+			 console.log(totalCount, 'total_count')
+			let totalPages = Math.ceil(totalCount / PER_PAGE);
+			console.log(totalPages)
+			// let pagesCount = Math.ceil(totalCount / PER_PAGE);
+		
+				// console.log(pagesCount, 'pagesCount')
+		
+				for (let i=1; i < totalPages ; i++) {
+					pagesCountShow.push(i)
+				}
+			console.log(pagesCountShow, 'pagesCountShow')
+			setPageAmount(pagesCountShow)
+		 } )
+
+
+
+
+
 	}, [inputValue, page, repoPage, repos])
 	//    setInputValue('');
     return <>
