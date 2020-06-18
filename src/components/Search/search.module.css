@@ -1,0 +1,24 @@
+.searchResults{
+    width: 1140px;
+    margin: 0 auto;
+    text-align: center;
+}
+.searchResRepos{
+    text-align: left;
+    
+}
+.searchResRepos li{
+    list-style-type: none;
+    margin-bottom: 8px;
+
+}
+.activePageNum{
+    text-decoration: underline;
+    font-weight: 900;
+}
+
+.pagination span{
+    margin: 0 6px;
+    cursor: pointer;
+
+}

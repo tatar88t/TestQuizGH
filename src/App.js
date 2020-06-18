@@ -1,15 +1,32 @@
 import React from 'react';
 
 import './App.css';
-
+import Search from './components/Search/Search';
+import { Route, Switch } from 'react-router-dom';
+import RepositoryPage from './components/RepositoryPage/RepositoryPage'
+import Basic from './components/Basic/Basic'
 // https://api.github.com/search/repositories?q=html
 
-function App() {
+const App = () => {
+	
 	const [inputValue, setInputValue] = React.useState('');
 	const [repos, setRepos] = React.useState([]);
-	const [page, setPage] = React.useState('')
-
+	const [page, setPage] = React.useState('');
+	const [repoPage, setRepoPage] = React.useState({});
+	const [repoPageOwner, setRepoPageOwner] = React.useState({})
 	const PER_PAGE = 10;
+	const [pageAmount, setPageAmount] = React.useState([])
+
+	let totalCount = repos.total_count;
+	let pagesCount = Math.ceil(totalCount / PER_PAGE)
+
+	let pagesCountShow =[];
+
+		for (let i=1; i < 10 ; i++) {
+			pagesCountShow.push(i)
+		}
+
+		console.log(pagesCountShow, 'pagesCountShow')
 	
 	React.useEffect(() => {
 		if(!inputValue){
@@ -24,43 +41,34 @@ function App() {
 		console.log(data);
 		setRepos(data.items);
 		 });
-	}, [inputValue, page])
+	}, [inputValue, page, repoPage, repos])
+	//    setInputValue('');
+    return <>
 
-	
-	
+				<Basic setInputValue = {setInputValue} 
+					   repos = {repos} 
+					   inputValue ={inputValue} />
+				<Route  exact path = '/search' render = {() => <Search setInputValue = {setInputValue} 
+																 repos ={repos}
+																 page = {page}
+																 setPage = {setPage}
+																 setRepoPage = {setRepoPage}
+																 PER_PAGE = {PER_PAGE} 
+																 setRepoPageOwner = {setRepoPageOwner}
+																 pageAmount = {pageAmount} 
+																 pagesCountShow ={pagesCountShow}/>} />
+				<Route exact path = '/repo' render = {() => <RepositoryPage repoPage = {repoPage}
+																			repoPageOwner = {repoPageOwner} 
 
-	let totalCount = repos.total_count;
-	let pagesCount = Math.ceil(totalCount / PER_PAGE)
-
-	let pagesCountShow =[];
-//------------------------pagesCount
-		for (let i=1; i < 10; i++) {
-			pagesCountShow.push(i)
-		}
-
-
-    return (
-        <div className="App">
-            <div>
-                <form onSubmit = {(e) => {e.preventDefault();
-                                         setInputValue(e.target.elements.query.value)}}>
-                    <input type = 'text' placeholder = 'Search Github Repositories...' name = 'query' ></input>
-                    <button type = 'submit'>Search</button>
-                </form>
-            </div>
-			<ul>
-				{repos.map(repo => {
-					return <li key = {repo.id}>{repo.name}, {repo.stargazers_count}, {repo.updated_at}, {repo.html_url}</li>
-				})}
-				<li></li>
-			</ul>
-				<div>
-					{pagesCountShow.map(p => {
-						return <span onClick ={(e) => {setPage(p)}}>{p}</span>
-					})}		
-				</div>
-        </div>
-    );
+																			/>} />
+				{/* <Route path = '/'>
+					<Search />
+				</Route>
+				<Route path = '/repo'>
+					<RepositoryPage />
+				</Route> */}
+			
+			</>
 }
 
 export default App;
