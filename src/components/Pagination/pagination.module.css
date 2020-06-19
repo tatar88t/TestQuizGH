@@ -1,0 +1,15 @@
+.pagination{
+    margin-top: 20px;
+}
+
+
+.activePageNum{
+    text-decoration: underline;
+    font-weight: 900;
+}
+
+.pagination span{
+    margin: 0 6px;
+    cursor: pointer;
+
+}
