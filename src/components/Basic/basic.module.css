@@ -1,8 +1,8 @@
 .queryForm{
-    margin: 0 auto;
+    margin: 0 auto 20px auto;
     text-align: center;
     width: 1140px;
-    padding: 10px 40px 20px 40px;
+    
    
 }
 .queryForm form {
@@ -13,5 +13,16 @@
     padding: 16px 16px 4px 8px;
 }
 .queryBtn{
-
+    
+    background:  #2d3436;
+    border: none;
+    transition: 0.5s all;
+    padding: 0 20px;
+    color: #fff;
+    outline: none;
+    cursor: pointer;
+}
+.queryBtn:hover{
+   
+    background: #a8a8a8;
 }

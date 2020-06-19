@@ -13,11 +13,11 @@ const Basic = (props) => {
 		props.inputValue ? history.push('/search') : history.push('')
     // document.location.pathname = '/search'
     console.log(props.inputValue, 'props.inputValue')
-    }, [props.inputValue])
+    }, [props.inputValue, history])
     // console.log(props.location.pathname, 'location')
     return(
         <div className = {stl.queryForm}>
-            <h1>GitHub Repositories Query</h1>
+            <h1>GitHub Dashboard</h1>
             <form onSubmit = {(e) =>
                                     {e.preventDefault(); 
                                     

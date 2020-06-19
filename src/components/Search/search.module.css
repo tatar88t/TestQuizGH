@@ -1,24 +1,54 @@
 .searchResults{
-    width: 1140px;
-    margin: 0 auto;
+    
+    
+    
     text-align: center;
 }
-.searchResRepos{
-    text-align: left;
+table{
+    padding: 0 40px;
+    width: 1140px;
+    margin: 0 auto;
+    border-collapse: collapse;
     
 }
-.searchResRepos li{
-    list-style-type: none;
-    margin-bottom: 8px;
-
-}
-.activePageNum{
-    text-decoration: underline;
-    font-weight: 900;
+table a {
+    text-decoration: none;
+    color: #2d3436;
+    
 }
 
-.pagination span{
-    margin: 0 6px;
-    cursor: pointer;
-
+td {
+    text-align: center;
+    width: 25%;
+    border: 1px solid #2d3436;
+    padding: 0.5em 0.5em 0 1em;
+    font-weight: 500;
+    
+}
+tr:first-child td{
+    background-color:#2d3436;
+    font-weight: 600;
+    color: #fff;
+    padding-bottom: 0.5em;
+    
+    
+}
+td img{
+    width: 50px;
+    margin: 0 auto;
+    display: block;
+}
+tr:nth-child(n+2) td:nth-child(1) {
+    background: #f5f6fa;
+    color:  #2d3436;
+    
+    
+}
+ td:nth-child(1){
+     width: 40%;
+     text-align: left;
+ }
+ td:nth-child(2){
+    text-align: center;
+    width: 10%;
 }

@@ -9,7 +9,7 @@ import Basic from './components/Basic/Basic'
 
 const App = () => {
 	
-	const [inputValue, setInputValue] = React.useState('');
+	const [inputValue, setInputValue] = React.useState('stars:>500');
 	const [repos, setRepos] = React.useState([]);
 	const [page, setPage] = React.useState(1);
 	const [repoPage, setRepoPage] = React.useState({});
@@ -25,21 +25,19 @@ const App = () => {
 				for (let i=1; i < totalPages ; i++) {
 					pagesCountShow.push(i)
 				}
-	// let portionCount = Math.ceil(totalPages / PORTION_SIZE);
-
-	// let [portionNum, setPortionNum] = useState(1);
-	// let leftPortionPageNum = (portionNum - 1) * PORTION_SIZE + 1;
-	// let rightPortionPageNum = portionNum * PORTION_SIZE
 
 
 
 
 	React.useEffect(() => {
+
+		
 		if(!inputValue){
-			console.log('bibilo')
+			setInputValue('stars:>500');
 			return;
 		}
-		fetch(`https://api.github.com/search/repositories?q=${inputValue}&per_page=${PER_PAGE}&page=${page}`)
+
+		fetch(`https://api.github.com/search/repositories?q=${inputValue}&sort=stars&per_page=${PER_PAGE}&page=${page}`)
   		.then((response) => {
   		  return response.json();
   		})
@@ -52,7 +50,7 @@ const App = () => {
 			setPageAmount(pagesCountShow)
 		 } )
 
-	}, [inputValue, page, repoPage, repos])
+	}, [inputValue, page])
 	//    setInputValue('');
     return <>
 
