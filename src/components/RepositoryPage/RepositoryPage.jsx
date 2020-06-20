@@ -9,41 +9,29 @@ const RepositoryPage = (props) => {
 		
 		fetch(props.repoPage.languages_url)
   		.then((response) => {
-            console.log(props.repoPage.languages_url)
-            return response.json();
-            
+            return response.json();    
   		})
   		.then((data) => {
-		
 		setLang(data);
 		 });
     }, [props.repoPage.languages_url])
-    
-        console.log('lang:')    
         
         let keys = Object.keys(lang)
         let languages = []
         for (let i = 0; i< keys.length; i++){languages.push(keys[i])}
-        console.log(languages)
 
     React.useEffect(() => {
 		
         fetch(props.repoPage.contributors_url)
           .then((response) => {
-            console.log(props.repoPage.contributors_url)
-            return response.json();
-            
+            return response.json(); 
           })
           .then((data) => {
         
         setContributors(data);
          });
         }, [props.repoPage.contributors_url])
-        
-            console.log('Contrib:')    
-            console.log(contributors)
-            
-
+                
     return(
         <div className = {stl.repoPage}>
             <table>
@@ -63,35 +51,36 @@ const RepositoryPage = (props) => {
                 
                 
             </table>
-            <div className = {stl.repoPageProfile}>
-                    
-                    <img src = {props.repoPageOwner.avatar_url}
-                             alt ="profile"/> 
-                   
+            <div className = {stl.repoPageProfileWrapper}>
+                <div className = {stl.repoPageProfile}>
+
+                        <img src = {props.repoPageOwner.avatar_url}
+                                 alt ="profile"/> 
 
 
-                    <div className = {stl.repoPageProfileLink}>
-                        <a href = {props.repoPageOwner.html_url} 
-                           target = "_blank"
-                           rel="noopener noreferrer">{props.repoPageOwner.login}</a>
-                    </div>
-            </div>
-           
-        
-        
-            <div className = {stl.descr} >Languages Used:
-            <br/>
-            {languages.map((item, i) => {
-		    				return <span key = {i}>{item}  </span>
-		    			})}	
-            </div>
-            <br/>
-            <div className = {stl.descr}>Description:
-                <span>{props.repoPage.description}
-                
-                </span>
-            </div>
 
+                        <div className = {stl.repoPageProfileLink}>
+                            <a href = {props.repoPageOwner.html_url} 
+                               target = "_blank"
+                               rel="noopener noreferrer">{props.repoPageOwner.login}</a>
+                        </div>
+                </div>
+
+
+
+                <div className = {stl.descr} >Languages Used:
+
+                {languages.map((item, i) => {
+		        				return <span key = {i}>{item}  </span>
+		        			})}	
+                </div>
+                        
+                <div className = {stl.descr}>Description:
+                    <span>{props.repoPage.description}
+                        
+                    </span>
+                </div>
+            </div>                   
 
         <table className = {stl.descr}>
             <thead>           

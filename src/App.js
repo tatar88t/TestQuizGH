@@ -1,26 +1,26 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import './App.css';
 import Search from './components/Search/Search';
-import { Route, Switch } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import RepositoryPage from './components/RepositoryPage/RepositoryPage'
 import Basic from './components/Basic/Basic'
-// https://api.github.com/search/repositories?q=html
+
 
 const App = () => {
 	
-	const [inputValue, setInputValue] = React.useState('stars:>500');
-	const [repos, setRepos] = React.useState([]);
-	const [page, setPage] = React.useState(1);
-	const [repoPage, setRepoPage] = React.useState({});
-	const [repoPageOwner, setRepoPageOwner] = React.useState({});
-	const [totalCount, setTotalCount] = React.useState('');
-	const PER_PAGE = 10;
+	const [inputValue, setInputValue] = useState('stars:>500');
+	const [repoPageOwner, setRepoPageOwner] = useState({});
+	const [totalCount, setTotalCount] = useState('');
+	const [repoPage, setRepoPage] = useState({});
+	const [repos, setRepos] = useState([]);
+	const [page, setPage] = useState(1);
+	
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState(false);
 	const PORTION_SIZE = 10;
-	// const [pageAmount, setPageAmount] = React.useState([])
-	const [loading, setLoading] = React.useState(false);
-	const [error, setError] = React.useState(false);
-
+	const PER_PAGE = 10;
+	
 	let pagesCountShow =[];
 
 	let totalPages = Math.ceil(totalCount / PER_PAGE);
@@ -29,11 +29,8 @@ const App = () => {
 				}
 
 
-
-
 	React.useEffect(() => {
 
-		
 		if(!inputValue){
 			setInputValue('stars:>500');
 			return;
@@ -49,9 +46,7 @@ const App = () => {
 		setRepos(data.items);
 		setTotalCount(data.total_count)
 		 })
-		//  .then(()=> {
-		// 	setPageAmount(pagesCountShow)
-		//  })
+
 		.catch(err => {
         setLoading(false);
         setError(true);
@@ -59,9 +54,8 @@ const App = () => {
       });
 
 	}, [inputValue, page])
-	//    setInputValue('');
-    return <>
 
+    return <>
 				<Basic setInputValue = {setInputValue} 
 					   repos = {repos} 
 					   inputValue ={inputValue} />
@@ -72,7 +66,6 @@ const App = () => {
 																 setRepoPage = {setRepoPage}
 																 PER_PAGE = {PER_PAGE} 
 																 setRepoPageOwner = {setRepoPageOwner}
-																//  pageAmount = {pageAmount} 
 																 pagesCountShow ={pagesCountShow}
 																 totalPages = {totalPages}
 																 PORTION_SIZE = {PORTION_SIZE}
@@ -83,13 +76,6 @@ const App = () => {
 																			repoPageOwner = {repoPageOwner} 
 
 																			/>} />
-				{/* <Route path = '/'>
-					<Search />
-				</Route>
-				<Route path = '/repo'>
-					<RepositoryPage />
-				</Route> */}
-			
 			</>
 }
 

@@ -1,16 +1,16 @@
 import React from 'react';
 import stl from './search.module.css'
-import {Link, Router} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import Pagination from '../Pagination/Pagination';
 import githubLogo from './img/github-seeklogo.com.svg'
+
 const Search = (props) => {
 
-
-	console.log(props.pageAmount, 'pageAmount from props')
-	console.log(props.pagesCountShow, 'PagesCountShow')
     return (
         <div className= {stl.searchResults} >
-			{props.loading && <div className={stl.spinner}><div className={stl.eclipse}>
+		
+			{props.loading && <div className={stl.spinner}>
+								<div className={stl.eclipse}>
 								<div></div>
 								</div></div>}
 			{props.error && <div> Unexpected Error. Try again Later</div>}
@@ -20,7 +20,7 @@ const Search = (props) => {
 						<td>Repository Name</td><td>Stars</td><td>Last Update</td><td>Link to GitHub Repository</td>
 					</tr>
 				</thead>
-				
+				{props.repos.length === 0  && <tbody className = {stl.searchResNomatch}><tr><td colSpan = '4'>No matches found...try again...</td></tr></tbody>}
 				{props.repos.map(repo => {
 					return <tbody key = {repo.id}>
 							<tr>

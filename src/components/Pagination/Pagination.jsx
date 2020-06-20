@@ -1,15 +1,14 @@
 import React from 'react';
 import stl from './pagination.module.css'
+
 const Pagination =(props) => {
     
     let portionCount = Math.ceil(props.totalPages / props.PORTION_SIZE);
-
 	let [portionNum, setPortionNum] = React.useState(1);
 	let leftPortionPageNum = (portionNum - 1) * props.PORTION_SIZE + 1;
-	let rightPortionPageNum = portionNum * props.PORTION_SIZE
-    let LIMIT_PAGES = 100 
-	console.log(props.totalCount, 'total count')
-	console.log(props.pagesCountShow, 'props.pagesCountShow')
+	let rightPortionPageNum = portionNum * props.PORTION_SIZE;
+    let LIMIT_PAGES = 100;
+	
     return(
         <div className = {stl.pagination}>
 					{portionNum > 1  &&
@@ -21,16 +20,12 @@ const Pagination =(props) => {
 						return <span onClick ={(e) => {props.setPage(p)}} 
 									 className = {props.page === p ? stl.activePageNum : stl.pageNum}
 									 key = {p}>{p}
-								</span>
-							   
-								
+								</span>			
 					})}	
 					{portionCount > portionNum && portionNum < LIMIT_PAGES / props.PORTION_SIZE &&
 						<button onClick = {() => {setPortionNum(portionNum + 1)}}>NEXT</button>}
 					<div>
-						{/* <span>{props.totalCount} repositories found</span>	 */}
 					</div>	
-					
 				</div>
     )
 }
