@@ -7,26 +7,28 @@ const Pagination =(props) => {
 	let [portionNum, setPortionNum] = React.useState(1);
 	let leftPortionPageNum = (portionNum - 1) * props.PORTION_SIZE + 1;
 	let rightPortionPageNum = portionNum * props.PORTION_SIZE
-    
-    
+    let LIMIT_PAGES = 100 
+	console.log(props.totalCount, 'total count')
+	console.log(props.pagesCountShow, 'props.pagesCountShow')
     return(
         <div className = {stl.pagination}>
 					{portionNum > 1  &&
 					<button onClick = {() => { setPortionNum(portionNum - 1)}}>PREV</button>}
 
 					{props.pagesCountShow
-								.filter(p => p>= leftPortionPageNum && p <= rightPortionPageNum)
+								.filter(p => p>= leftPortionPageNum && p <= rightPortionPageNum && p <= LIMIT_PAGES)
 								.map(p => {
 						return <span onClick ={(e) => {props.setPage(p)}} 
-									 className = {props.page === p ? stl.activePageNum : stl.pageNum}>{p}
+									 className = {props.page === p ? stl.activePageNum : stl.pageNum}
+									 key = {p}>{p}
 								</span>
 							   
 								
 					})}	
-					{portionCount > portionNum &&
+					{portionCount > portionNum && portionNum < LIMIT_PAGES / props.PORTION_SIZE &&
 						<button onClick = {() => {setPortionNum(portionNum + 1)}}>NEXT</button>}
 					<div>
-						<span>{props.totalPages} repositories found</span>	
+						{/* <span>{props.totalCount} repositories found</span>	 */}
 					</div>	
 					
 				</div>

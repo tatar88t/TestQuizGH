@@ -9,14 +9,21 @@ const Search = (props) => {
 	console.log(props.pageAmount, 'pageAmount from props')
 	console.log(props.pagesCountShow, 'PagesCountShow')
     return (
- 
         <div className= {stl.searchResults} >
+			{props.loading && <div className={stl.spinner}><div className={stl.eclipse}>
+								<div></div>
+								</div></div>}
+			{props.error && <div> Unexpected Error. Try again Later</div>}
 			<table className = {stl.searchResRepos} >
-				<tr>
-					<td>Repository Name</td><td>Stars</td><td>Last Update</td><td>Link to Github Repository</td>
-				</tr>
+				<thead>
+					<tr>
+						<td>Repository Name</td><td>Stars</td><td>Last Update</td><td>Link to GitHub Repository</td>
+					</tr>
+				</thead>
+				
 				{props.repos.map(repo => {
-					return <tr key = {repo.id}>
+					return <tbody key = {repo.id}>
+							<tr>
 								<td>
 									<Link to = "/repo" 
 									onClick = {(e) => {props.setRepoPage(repo);
@@ -27,22 +34,25 @@ const Search = (props) => {
 								<td> {repo.stargazers_count} </td>
 								<td>{repo.updated_at.slice(0, -10)}</td>
 								<td>
-									<a href = "{repo.html_url}">
+									<a href = {repo.html_url}
+									   target = "_blank"
+									   rel="noopener noreferrer">
 									<img src = {githubLogo} alt = 'githubLink' />
 									</a> 	
-								</td>
-								
+								</td>	
 							</tr>
+							</tbody>
 				})}
 				
 			</table>
-
+				
 			<Pagination totalPages = {props.totalPages}
 						PORTION_SIZE = {props.PORTION_SIZE} 
 						page = {props.page}
 						setPage = {props.setPage}
 						pageAmount = {props.pageAmount}
-						pagesCountShow = {props.pagesCountShow} />				
+						pagesCountShow = {props.pagesCountShow}
+						totalCount = {props.totalCount} />				
         </div>
                 
     );

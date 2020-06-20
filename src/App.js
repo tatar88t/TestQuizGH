@@ -17,12 +17,14 @@ const App = () => {
 	const [totalCount, setTotalCount] = React.useState('');
 	const PER_PAGE = 10;
 	const PORTION_SIZE = 10;
-	const [pageAmount, setPageAmount] = React.useState([])
+	// const [pageAmount, setPageAmount] = React.useState([])
+	const [loading, setLoading] = React.useState(false);
+	const [error, setError] = React.useState(false);
 
 	let pagesCountShow =[];
 
 	let totalPages = Math.ceil(totalCount / PER_PAGE);
-				for (let i=1; i < totalPages ; i++) {
+				for (let i=1; i <= totalPages ; i++) {
 					pagesCountShow.push(i)
 				}
 
@@ -36,19 +38,25 @@ const App = () => {
 			setInputValue('stars:>500');
 			return;
 		}
+		setLoading(true)
 
 		fetch(`https://api.github.com/search/repositories?q=${inputValue}&sort=stars&per_page=${PER_PAGE}&page=${page}`)
   		.then((response) => {
   		  return response.json();
   		})
   		.then((data) => {
-		
+		setLoading(false)
 		setRepos(data.items);
 		setTotalCount(data.total_count)
 		 })
-		 .then(()=> {
-			setPageAmount(pagesCountShow)
-		 } )
+		//  .then(()=> {
+		// 	setPageAmount(pagesCountShow)
+		//  })
+		.catch(err => {
+        setLoading(false);
+        setError(true);
+        console.error(err);
+      });
 
 	}, [inputValue, page])
 	//    setInputValue('');
@@ -64,10 +72,13 @@ const App = () => {
 																 setRepoPage = {setRepoPage}
 																 PER_PAGE = {PER_PAGE} 
 																 setRepoPageOwner = {setRepoPageOwner}
-																 pageAmount = {pageAmount} 
+																//  pageAmount = {pageAmount} 
 																 pagesCountShow ={pagesCountShow}
 																 totalPages = {totalPages}
-																 PORTION_SIZE = {PORTION_SIZE}/>} />
+																 PORTION_SIZE = {PORTION_SIZE}
+																 totalCount = {totalCount}
+																 loading = {loading}
+																 error = {error} />} />
 				<Route exact path = '/repo' render = {() => <RepositoryPage repoPage = {repoPage}
 																			repoPageOwner = {repoPageOwner} 
 

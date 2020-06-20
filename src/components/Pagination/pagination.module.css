@@ -1,5 +1,6 @@
 .pagination{
     margin-top: 20px;
+   
 }
 
 
@@ -11,5 +12,13 @@
 .pagination span{
     margin: 0 6px;
     cursor: pointer;
-
+    /* border: 1px solid #2d3436; */
+}
+.pagination button {
+    border: none;
+    background: #2d3436;
+    color: #fff;
+    font-style: italic;
+    cursor: pointer;
+    border-radius: 2px;
 }
