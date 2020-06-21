@@ -18,8 +18,9 @@ const Basic = (props) => {
             <form onSubmit = {(e) =>
                                     {e.preventDefault(); 
                                     
-                                    //  props.setInputValue(e.target.elements.query.value)
-                                    //  props.setPage(1)
+                                     props.setInputValue('stars:>500')
+                                     props.setPage(1)
+                                     e.target.elements.query.value = ''
                                 }}>
                                       
                 <input 
@@ -28,7 +29,7 @@ const Basic = (props) => {
                        onChange = {(e) =>  {props.setInputValue(e.target.value) 
                                             props.setPage(1)}} 
                         />
-                <button className = {stl.queryBtn} type = 'submit'>Search</button>
+                <button className = {stl.queryBtn} type = 'submit'>Clear</button>
             </form>
         </div>
     )

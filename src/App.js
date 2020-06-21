@@ -10,7 +10,7 @@ import Basic from './components/Basic/Basic'
 const App = () => {
 	const [fetchCounter, setFetchCounter] = useState(0);
 
-	const [inputValue, setInputValue] = useState('stars:>500');
+	const [inputValue, setInputValue] = useState('');
 	const [repoPageOwner, setRepoPageOwner] = useState({});
 	const [totalCount, setTotalCount] = useState('');
 	const [repoPage, setRepoPage] = useState({});
