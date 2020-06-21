@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 
 import './App.css';
 import Search from './components/Search/Search';
@@ -8,13 +8,14 @@ import Basic from './components/Basic/Basic'
 
 
 const App = () => {
-	
+	const [fetchCounter, setFetchCounter] = useState(0);
+
 	const [inputValue, setInputValue] = useState('stars:>500');
 	const [repoPageOwner, setRepoPageOwner] = useState({});
 	const [totalCount, setTotalCount] = useState('');
 	const [repoPage, setRepoPage] = useState({});
 	const [repos, setRepos] = useState([]);
-	const [page, setPage] = useState(1);
+	const [page, setPage] = useState('');
 	
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(false);
@@ -28,16 +29,50 @@ const App = () => {
 					pagesCountShow.push(i)
 				}
 
+	const usePrevious = (value) => {
+		const ref = useRef(value);
+		// useEffect(() => {
+		// 	ref.current = value;
+		// })
+		return ref.current;
 
-	React.useEffect(() => {
+	}
+	let prevInput = usePrevious(inputValue)
 
-		if(!inputValue){
-			setInputValue('stars:>500');
-			return;
+	console.log(prevInput, 'prevInput')
+	useEffect(() => {
+		const inputValueLocal = localStorage.getItem('inputValue') || 'stars:>500';
+		const pageLocal = localStorage.getItem('page') || 1;
+		if (prevInput !== inputValue){
+			setPage(1)
 		}
+		setInputValue(inputValueLocal);
+		setPage(+pageLocal);
+		
+	}, [])	
+
+	useEffect(() => {
+		localStorage.setItem('inputValue', inputValue)
+		localStorage.setItem('page', page)
+
+	}, [inputValue, page])
+
+	
+
+
+	useEffect(() => {
+
+		
+		// if(!inputValue){
+		// 	setInputValue('stars:>500');
+		// 	setPage(1)
+		// 	return;
+		// }
+		
+
 		setLoading(true)
 
-		fetch(`https://api.github.com/search/repositories?q=${inputValue}&sort=stars&per_page=${PER_PAGE}&page=${page}`)
+		fetch(`https://api.github.com/search/repositories?q=${inputValue}+in:name&sort=stars&per_page=${PER_PAGE}&page=${page}`)
   		.then((response) => {
   		  return response.json();
   		})
@@ -45,7 +80,9 @@ const App = () => {
 		setLoading(false)
 		setRepos(data.items);
 		setTotalCount(data.total_count)
+		setFetchCounter(fetchCounter + 1)
 		 })
+		
 
 		.catch(err => {
         setLoading(false);
@@ -54,11 +91,12 @@ const App = () => {
       });
 
 	}, [inputValue, page])
-
+	console.log(fetchCounter, 'FetchCounter')
     return <>
 				<Basic setInputValue = {setInputValue} 
 					   repos = {repos} 
-					   inputValue ={inputValue} />
+					   inputValue ={inputValue} 
+					   setPage = {setPage}/>
 				<Route  exact path = '/search' render = {() => <Search setInputValue = {setInputValue} 
 																 repos ={repos}
 																 page = {page}

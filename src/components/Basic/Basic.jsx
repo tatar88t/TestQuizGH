@@ -18,9 +18,16 @@ const Basic = (props) => {
             <form onSubmit = {(e) =>
                                     {e.preventDefault(); 
                                     
-                                     props.setInputValue(e.target.elements.query.value)}}>
+                                    //  props.setInputValue(e.target.elements.query.value)
+                                    //  props.setPage(1)
+                                }}>
                                       
-                <input className = {stl.queryInput} type = 'text' placeholder = 'Search Github Repositories...' name = 'query' />
+                <input 
+                       className = {stl.queryInput} type = 'text' 
+                       placeholder = 'Search Github Repositories...' name = 'query'
+                       onChange = {(e) =>  {props.setInputValue(e.target.value) 
+                                            props.setPage(1)}} 
+                        />
                 <button className = {stl.queryBtn} type = 'submit'>Search</button>
             </form>
         </div>

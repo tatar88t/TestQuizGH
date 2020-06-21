@@ -13,15 +13,15 @@ const Search = (props) => {
 								<div className={stl.eclipse}>
 								<div></div>
 								</div></div>}
-			{props.error && <div> Unexpected Error. Try again Later</div>}
+			{props.error && <div> Error. Note, that For unauthenticated requests, the rate limit allows you to make up to 10 requests per minute. Try again Later</div>}
 			<table className = {stl.searchResRepos} >
 				<thead>
 					<tr>
 						<td>Repository Name</td><td>Stars</td><td>Last Update</td><td>Link to GitHub Repository</td>
 					</tr>
 				</thead>
-				{props.repos.length === 0  && <tbody className = {stl.searchResNomatch}><tr><td colSpan = '4'>No matches found...try again...</td></tr></tbody>}
-				{props.repos.map(repo => {
+				{props.repos && props.repos.length === 0  && <tbody className = {stl.searchResNomatch}><tr><td colSpan = '4'>No matches found...try again...</td></tr></tbody>}
+				{props.repos && props.repos.map(repo => {
 					return <tbody key = {repo.id}>
 							<tr>
 								<td>

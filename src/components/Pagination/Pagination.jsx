@@ -8,7 +8,7 @@ const Pagination =(props) => {
 	let leftPortionPageNum = (portionNum - 1) * props.PORTION_SIZE + 1;
 	let rightPortionPageNum = portionNum * props.PORTION_SIZE;
     let LIMIT_PAGES = 100;
-	
+	// console.log(props.page, 'PROPS PAGE in PAGNATION')
     return(
         <div className = {stl.pagination}>
 					{portionNum > 1  &&
