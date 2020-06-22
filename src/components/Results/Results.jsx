@@ -1,17 +1,20 @@
-import React from 'react';
-import stl from './results.module.css'
+import React, {useContext} from 'react';
+import stl from './results.module.css';
 import {Link} from 'react-router-dom';
 import Pagination from '../Pagination/Pagination';
-import githubLogo from './img/github-seeklogo.com.svg'
-
+import githubLogo from './img/github-seeklogo.com.svg';
+import {ResultsContext} from '../../Context/ResultsContext';
 const Results = (props) => {
+
+	const {repos, setRepoPage, setRepoPageOwner, loading, error} = useContext(ResultsContext)
+	
     return (
         <div className= {stl.searchResults} >
-			{props.loading && <div className={stl.spinner}>
+			{loading && <div className={stl.spinner}>
 								<div className={stl.eclipse}>
 								<div></div>
 								</div></div>}
-			{props.error && <div> Error. Note, that For unauthenticated requests, the rate limit allows you to make up to 10 requests per minute. Try again Later
+			{error && <div> Error. Note, that For unauthenticated requests, the rate limit allows you to make up to 10 requests per minute. Try again Later
 				</div>}
 			<table className = {stl.searchResRepos} >
 				<thead>
@@ -22,19 +25,19 @@ const Results = (props) => {
 						<td>Link to GitHub Repository</td>
 					</tr>
 				</thead>
-				{props.repos && props.repos.length === 0  && 
+				{repos && repos.length === 0  && 
 					<tbody className = {stl.searchResNomatch}>
 						<tr>
 						<td colSpan = '4'>No matches found...try again...</td>
 						</tr>
 					</tbody>}
-				{props.repos && props.repos.map(repo => {
+				{repos && repos.map(repo => {
 					return <tbody key = {repo.id}>
 							<tr>
 								<td>
 									<Link to = "/repo" 
-									onClick = {(e) => {props.setRepoPage(repo);
-											props.setRepoPageOwner(repo.owner)}}>
+									onClick = {(e) => {setRepoPage(repo);
+											setRepoPageOwner(repo.owner)}}>
 											{repo.name} 
 									</Link>
 								</td> 
@@ -51,12 +54,7 @@ const Results = (props) => {
 							</tbody>
 				})}	
 			</table>			
-			<Pagination totalPages = {props.totalPages}
-						page = {props.page}
-						setPage = {props.setPage}
-						pageAmount = {props.pageAmount}
-						pagesCountShow = {props.pagesCountShow}
-						totalCount = {props.totalCount} />				
+			<Pagination />				
         </div>            
     );
 }

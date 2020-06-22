@@ -1,16 +1,18 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import stl from './search.module.css';
 import {useHistory} from 'react-router-dom';
-
-
+import Constants from '../../Constants/Constants'
+import {ResultsContext} from '../../Context/ResultsContext'
 
 
 const Search = (props) => {
 
+    const {inputValue, setInputValue, setPage} = useContext(ResultsContext)
+
     let history = useHistory()
     React.useEffect(() => {
-		props.inputValue ? history.push('/results') : history.push('')
-    }, [props.inputValue, history])
+		inputValue ? history.push('/results') : history.push('')
+    }, [inputValue, history])
 
     return(
         <div className = {stl.queryForm}>
@@ -18,16 +20,16 @@ const Search = (props) => {
             <form onSubmit = {(e) =>
                                     {e.preventDefault(); 
                                     
-                                     props.setInputValue('stars:>500')
-                                     props.setPage(1)
+                                     setInputValue(Constants.INIT_QUERY)
+                                     setPage(1)
                                      e.target.elements.query.value = ''
                                 }}>
                                       
                 <input 
                        className = {stl.queryInput} type = 'text' 
                        placeholder = 'Search Github Repositories...' name = 'query'
-                       onChange = {(e) =>  {props.setInputValue(e.target.value) 
-                                            props.setPage(1)
+                       onChange = {(e) =>  {setInputValue(e.target.value) 
+                                            setPage(1)
                                         }} 
                         />
                 <button className = {stl.queryBtn} type = 'submit'>Clear</button>

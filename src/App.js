@@ -6,6 +6,7 @@ import RepositoryPage from './components/RepositoryPage/RepositoryPage'
 import Search from './components/Search/Search'
 import useDebounced from './components/Debouncer/Debouncer'
 import Constants from './Constants/Constants'
+import { ResultsContext } from './Context/ResultsContext';
 const App = () => {
 	const [repoPageOwner, setRepoPageOwner] = useState({});
 	const [inputValue, setInputValue] = useState('');
@@ -54,28 +55,23 @@ const App = () => {
 	}, [debouncedInputValue, page])
 
     return <>
-				<Search setInputValue = {setInputValue} 
-					   repos = {repos} 
-					   inputValue ={inputValue} 
-					   setPage = {setPage}
-					   />
+			<ResultsContext.Provider value = {{
+					inputValue,
+					setInputValue, setPage,
+					repos, page,
+					setRepoPage, setRepoPageOwner,
+					pagesCountShow, totalPages,
+					totalCount, loading, error}}>
+				<Search />
 				<Route  exact path = '/results' render = {
-					() => <Results setInputValue = {setInputValue} 
-							repos ={repos}
-							page = {page}
-							setPage = {setPage}
-							setRepoPage = {setRepoPage} 
-							setRepoPageOwner = {setRepoPageOwner}
-							pagesCountShow ={pagesCountShow}
-							totalPages = {totalPages}
-							totalCount = {totalCount}
-							loading = {loading}
-							error = {error} />} />
+					() => <Results />} />
+			</ResultsContext.Provider>					
 				<Route exact path = '/repo' render = {
 					() => <RepositoryPage repoPage = {repoPage}
 										repoPageOwner = {repoPageOwner} 
 										/>} />
-			</>
+			
+		</>
 }
 
 export default App;
