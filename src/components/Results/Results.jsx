@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import Pagination from '../Pagination/Pagination';
 import githubLogo from './img/github-seeklogo.com.svg';
 import {ResultsContext} from '../../Context/ResultsContext';
-const Results = (props) => {
+const Results = () => {
 
 	const {repos, setRepoPage, setRepoPageOwner, loading, error} = useContext(ResultsContext)
 	

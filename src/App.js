@@ -17,11 +17,9 @@ const App = () => {
 	const [page, setPage] = useState('');
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(false);
-	let debouncedInputValue = useDebounced(inputValue || Constants.INIT_QUERY, 800)
-	const url =`https://api.github.com/search/repositories?q=${debouncedInputValue}+in:name&sort=stars&per_page=${Constants.PER_PAGE}&page=${page}`
+	let debouncedInputValue = useDebounced(inputValue || Constants.INIT_QUERY, 800);
 	let headers = new Headers();
-	headers.set('Authorization', 'Basic ' + btoa(username + ":" + password));
-
+		headers.set('Authorization', 'Basic ' + btoa(username + ":" + password));
 	let pagesCountShow =[];
 	let totalPages = Math.ceil(totalCount / Constants.PER_PAGE);
 				for (let i=1; i <= totalPages ; i++) {
@@ -33,8 +31,8 @@ const App = () => {
 		const pageLocal = localStorage.getItem('page') || 1;
 		setInputValue(inputValueLocal);
 		setPage(+pageLocal);	
-	}, [])	
-
+	}, [])
+		
 	useEffect(() => {
 		localStorage.setItem('inputValue', inputValue)
 		localStorage.setItem('page', page)
@@ -42,9 +40,9 @@ const App = () => {
 	
 	
 	useEffect(() => {
-		setLoading(true)
-		 
-		fetch(url, {headers: headers})
+		setLoading(true);
+		fetch(`https://api.github.com/search/repositories?q=${debouncedInputValue}+in:name&sort=stars&per_page=${Constants.PER_PAGE}&page=${page}`,
+		 {headers: headers})
   		.then((response) => {
   		  return response.json();
   		})
@@ -58,8 +56,7 @@ const App = () => {
         setError(true);
         console.error(err);
       });
-	}, [debouncedInputValue, page])
-
+	}, [debouncedInputValue, page]);
     return <>
 			<ResultsContext.Provider value = {{
 					inputValue,
