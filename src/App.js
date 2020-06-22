@@ -35,10 +35,16 @@ const App = () => {
 		localStorage.setItem('inputValue', inputValue)
 		localStorage.setItem('page', page)
 	}, [inputValue, page])
-
+	const username = "tatar88t",
+		  password = "5135c2a3afb89f3e21e8b027d6b088221855f5fb";
+	let headers = new Headers();
+	headers.set('Authorization', 'Basic ' + btoa(username + ":" + password))
+	// const token = "5135c2a3afb89f3e21e8b027d6b088221855f5fb"
 	useEffect(() => {
 		setLoading(true)
-		fetch(`https://api.github.com/search/repositories?q=${debouncedInputValue}+in:name&sort=stars&per_page=${Constants.PER_PAGE}&page=${page}`)
+		fetch(`https://api.github.com/search/repositories?q=${debouncedInputValue}+in:name&sort=stars&per_page=${Constants.PER_PAGE}&page=${page}`,{
+			headers: headers
+		})
   		.then((response) => {
   		  return response.json();
   		})
