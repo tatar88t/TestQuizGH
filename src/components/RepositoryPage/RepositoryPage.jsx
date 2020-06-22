@@ -6,7 +6,6 @@ const RepositoryPage = (props) => {
     const [contributors, setContributors] = React.useState([]);
     
     React.useEffect(() => {
-		
 		fetch(props.repoPage.languages_url)
   		.then((response) => {
             return response.json();    
@@ -14,14 +13,13 @@ const RepositoryPage = (props) => {
   		.then((data) => {
 		setLang(data);
 		 });
-    }, [props.repoPage.languages_url])
-        
-        let keys = Object.keys(lang)
-        let languages = []
-        for (let i = 0; i< keys.length; i++){languages.push(keys[i])}
+    }, [props.repoPage.languages_url]) 
+
+    let keys = Object.keys(lang)
+    let languages = []
+    for (let i = 0; i< keys.length; i++){languages.push(keys[i])}
 
     React.useEffect(() => {
-		
         fetch(props.repoPage.contributors_url)
           .then((response) => {
             return response.json(); 
@@ -30,8 +28,7 @@ const RepositoryPage = (props) => {
         
         setContributors(data);
          });
-        }, [props.repoPage.contributors_url])
-                
+        }, [props.repoPage.contributors_url])               
     return(
         <div className = {stl.repoPage}>
             <table>
@@ -46,42 +43,28 @@ const RepositoryPage = (props) => {
                        <td>{props.repoPage.stargazers_count}</td>
                        <td>{props.repoPage.updated_at}</td>
                     </tr>
-                </tbody>
-                
-                
-                
+                </tbody>  
             </table>
             <div className = {stl.repoPageProfileWrapper}>
                 <div className = {stl.repoPageProfile}>
-
                         <img src = {props.repoPageOwner.avatar_url}
                                  alt ="profile"/> 
-
-
-
                         <div className = {stl.repoPageProfileLink}>
                             <a href = {props.repoPageOwner.html_url} 
                                target = "_blank"
                                rel="noopener noreferrer">{props.repoPageOwner.login}</a>
                         </div>
                 </div>
-
-
-
                 <div className = {stl.descr} >Languages Used:
-
                 {languages.map((item, i) => {
 		        				return <span key = {i}>{item}  </span>
 		        			})}	
-                </div>
-                        
+                </div>        
                 <div className = {stl.descr}>Description:
-                    <span>{props.repoPage.description}
-                        
+                    <span>{props.repoPage.description}   
                     </span>
                 </div>
             </div>                   
-
         <table className = {stl.descr}>
             <thead>           
                 <tr>
@@ -91,10 +74,8 @@ const RepositoryPage = (props) => {
                     <td>
                         Contributions     
                     </td> 
-
                 </tr> 
             </thead> 
-
             {contributors
                 .filter((contrib, i) => i < 10)
                 .map(contrib => {
@@ -107,20 +88,14 @@ const RepositoryPage = (props) => {
                                             {contrib.login}
                                     </a>
                                 </td>
-
                                 <td>
                                     {contrib.contributions} 
                                 </td>
-
                             </tr>
                         </tbody>
-            })}                                 
-                           
+            })}                                                 
         </table>
-               
-    
         </div>
     )
 }
-
 export default RepositoryPage;

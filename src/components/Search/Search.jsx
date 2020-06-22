@@ -1,60 +1,40 @@
 import React from 'react';
-import stl from './search.module.css'
-import {Link} from 'react-router-dom';
-import Pagination from '../Pagination/Pagination';
-import githubLogo from './img/github-seeklogo.com.svg'
+import stl from './search.module.css';
+import {useHistory} from 'react-router-dom';
+
+
+
 
 const Search = (props) => {
 
-    return (
-        <div className= {stl.searchResults} >
-		
-			{props.loading && <div className={stl.spinner}>
-								<div className={stl.eclipse}>
-								<div></div>
-								</div></div>}
-			{props.error && <div> Error. Note, that For unauthenticated requests, the rate limit allows you to make up to 10 requests per minute. Try again Later</div>}
-			<table className = {stl.searchResRepos} >
-				<thead>
-					<tr>
-						<td>Repository Name</td><td>Stars</td><td>Last Update</td><td>Link to GitHub Repository</td>
-					</tr>
-				</thead>
-				{props.repos && props.repos.length === 0  && <tbody className = {stl.searchResNomatch}><tr><td colSpan = '4'>No matches found...try again...</td></tr></tbody>}
-				{props.repos && props.repos.map(repo => {
-					return <tbody key = {repo.id}>
-							<tr>
-								<td>
-									<Link to = "/repo" 
-									onClick = {(e) => {props.setRepoPage(repo);
-											props.setRepoPageOwner(repo.owner)}}>
-											{repo.name} 
-									</Link>
-								</td> 
-								<td> {repo.stargazers_count} </td>
-								<td>{repo.updated_at.slice(0, -10)}</td>
-								<td>
-									<a href = {repo.html_url}
-									   target = "_blank"
-									   rel="noopener noreferrer">
-									<img src = {githubLogo} alt = 'githubLink' />
-									</a> 	
-								</td>	
-							</tr>
-							</tbody>
-				})}
-				
-			</table>
-				
-			<Pagination totalPages = {props.totalPages}
-						PORTION_SIZE = {props.PORTION_SIZE} 
-						page = {props.page}
-						setPage = {props.setPage}
-						pageAmount = {props.pageAmount}
-						pagesCountShow = {props.pagesCountShow}
-						totalCount = {props.totalCount} />				
+    let history = useHistory()
+    React.useEffect(() => {
+		props.inputValue ? history.push('/results') : history.push('')
+    }, [props.inputValue, history])
+
+    return(
+        <div className = {stl.queryForm}>
+            <h1>GitHub Dashboard</h1>
+            <form onSubmit = {(e) =>
+                                    {e.preventDefault(); 
+                                    
+                                     props.setInputValue('stars:>500')
+                                     props.setPage(1)
+                                     e.target.elements.query.value = ''
+                                }}>
+                                      
+                <input 
+                       className = {stl.queryInput} type = 'text' 
+                       placeholder = 'Search Github Repositories...' name = 'query'
+                       onChange = {(e) =>  {props.setInputValue(e.target.value) 
+                                            props.setPage(1)
+                                        }} 
+                        />
+                <button className = {stl.queryBtn} type = 'submit'>Clear</button>
+            </form>
         </div>
-                
-    );
+    )
 }
-export default Search;
+
+
+export default Search
