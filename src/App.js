@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 
 import './App.css';
 import Search from './components/Search/Search';
@@ -8,7 +8,7 @@ import Basic from './components/Basic/Basic'
 
 
 const App = () => {
-	const [fetchCounter, setFetchCounter] = useState(0);
+
 
 	const [inputValue, setInputValue] = useState('');
 	const [repoPageOwner, setRepoPageOwner] = useState({});
@@ -29,23 +29,11 @@ const App = () => {
 					pagesCountShow.push(i)
 				}
 
-	const usePrevious = (value) => {
-		const ref = useRef(value);
-		// useEffect(() => {
-		// 	ref.current = value;
-		// })
-		return ref.current;
-
-	}
-	let prevInput = usePrevious(inputValue)
-
-	console.log(prevInput, 'prevInput')
+	
 	useEffect(() => {
 		const inputValueLocal = localStorage.getItem('inputValue') || 'stars:>500';
 		const pageLocal = localStorage.getItem('page') || 1;
-		if (prevInput !== inputValue){
-			setPage(1)
-		}
+	
 		setInputValue(inputValueLocal);
 		setPage(+pageLocal);
 		
@@ -58,21 +46,28 @@ const App = () => {
 	}, [inputValue, page])
 
 	
+	let debouncedInputValue = useDebounced(inputValue || 'stars:>500', 800)
+	
+	function useDebounced(value, timeout) {
+		let [debouncedValue, setDebouncedValue] = useState(value)
 
+		useEffect(() => {
+			let timeOutFunc = setTimeout(() => {
+				setDebouncedValue(value)
+			}, timeout)
 
+			return() => {
+				clearTimeout(timeOutFunc)
+			}
+		}, [value, timeout])
+		return debouncedValue
+	}
+    
 	useEffect(() => {
-
 		
-		// if(!inputValue){
-		// 	setInputValue('stars:>500');
-		// 	setPage(1)
-		// 	return;
-		// }
-		
-
 		setLoading(true)
 
-		fetch(`https://api.github.com/search/repositories?q=${inputValue}+in:name&sort=stars&per_page=${PER_PAGE}&page=${page}`)
+		fetch(`https://api.github.com/search/repositories?q=${debouncedInputValue}+in:name&sort=stars&per_page=${PER_PAGE}&page=${page}`)
   		.then((response) => {
   		  return response.json();
   		})
@@ -80,7 +75,6 @@ const App = () => {
 		setLoading(false)
 		setRepos(data.items);
 		setTotalCount(data.total_count)
-		setFetchCounter(fetchCounter + 1)
 		 })
 		
 
@@ -90,30 +84,32 @@ const App = () => {
         console.error(err);
       });
 
-	}, [inputValue, page])
-	console.log(fetchCounter, 'FetchCounter')
+	}, [debouncedInputValue, page])
+
     return <>
 				<Basic setInputValue = {setInputValue} 
 					   repos = {repos} 
 					   inputValue ={inputValue} 
-					   setPage = {setPage}/>
-				<Route  exact path = '/search' render = {() => <Search setInputValue = {setInputValue} 
-																 repos ={repos}
-																 page = {page}
-																 setPage = {setPage}
-																 setRepoPage = {setRepoPage}
-																 PER_PAGE = {PER_PAGE} 
-																 setRepoPageOwner = {setRepoPageOwner}
-																 pagesCountShow ={pagesCountShow}
-																 totalPages = {totalPages}
-																 PORTION_SIZE = {PORTION_SIZE}
-																 totalCount = {totalCount}
-																 loading = {loading}
-																 error = {error} />} />
-				<Route exact path = '/repo' render = {() => <RepositoryPage repoPage = {repoPage}
-																			repoPageOwner = {repoPageOwner} 
-
-																			/>} />
+					   setPage = {setPage}
+					   />
+				<Route  exact path = '/search' render = {
+					() => <Search setInputValue = {setInputValue} 
+							repos ={repos}
+							page = {page}
+							setPage = {setPage}
+							setRepoPage = {setRepoPage}
+							PER_PAGE = {PER_PAGE} 
+							setRepoPageOwner = {setRepoPageOwner}
+							pagesCountShow ={pagesCountShow}
+							totalPages = {totalPages}
+							PORTION_SIZE = {PORTION_SIZE}
+							totalCount = {totalCount}
+							loading = {loading}
+							error = {error} />} />
+				<Route exact path = '/repo' render = {
+					() => <RepositoryPage repoPage = {repoPage}
+										repoPageOwner = {repoPageOwner} 
+										/>} />
 			</>
 }
 

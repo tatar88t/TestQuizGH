@@ -16,6 +16,10 @@ table a {
     text-decoration: none;
     color: #2d3436;
     
+    
+}
+table a:hover{
+    text-decoration: underline;
 }
 
 td {
@@ -38,6 +42,14 @@ td img{
     margin: 0 auto;
     display: block;
 }
+td img:hover{
+    transform: translateX(10px);
+    
+    transition: 0.3s all;
+    
+    
+}
+
 tbody td:nth-child(1) {
     background: #f5f6fa;
     color:  #2d3436;

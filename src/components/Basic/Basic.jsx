@@ -27,7 +27,8 @@ const Basic = (props) => {
                        className = {stl.queryInput} type = 'text' 
                        placeholder = 'Search Github Repositories...' name = 'query'
                        onChange = {(e) =>  {props.setInputValue(e.target.value) 
-                                            props.setPage(1)}} 
+                                            props.setPage(1)
+                                        }} 
                         />
                 <button className = {stl.queryBtn} type = 'submit'>Clear</button>
             </form>

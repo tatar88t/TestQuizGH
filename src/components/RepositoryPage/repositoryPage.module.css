@@ -31,7 +31,10 @@
     font-size: 26px;
 
     color: #2d3436;
-
+    text-decoration: none;
+}
+.repoPageProfileLink a:hover{
+    text-decoration: underline;
 }
 .descr{
     font-weight: 500;
