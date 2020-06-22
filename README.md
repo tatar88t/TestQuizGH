@@ -1,3 +1,9 @@
+ENTER YOUR GITHUB LOGIN AND PAT IN "AuthData.js" to increase your rate limit
+ 
+
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

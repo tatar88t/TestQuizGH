@@ -2,11 +2,12 @@ import React, {useState, useEffect} from 'react';
 import './App.css';
 import Results from './components/Results/Results';
 import { Route } from 'react-router-dom';
-import RepositoryPage from './components/RepositoryPage/RepositoryPage'
-import Search from './components/Search/Search'
-import useDebounced from './components/Debouncer/Debouncer'
-import Constants from './Constants/Constants'
+import RepositoryPage from './components/RepositoryPage/RepositoryPage';
+import Search from './components/Search/Search';
+import useDebounced from './components/Debouncer/Debouncer';
+import Constants from './Constants/Constants';
 import { ResultsContext } from './Context/ResultsContext';
+import {username, password} from './AuthData';
 const App = () => {
 	const [repoPageOwner, setRepoPageOwner] = useState({});
 	const [inputValue, setInputValue] = useState('');
@@ -17,6 +18,9 @@ const App = () => {
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(false);
 	let debouncedInputValue = useDebounced(inputValue || Constants.INIT_QUERY, 800)
+	const url =`https://api.github.com/search/repositories?q=${debouncedInputValue}+in:name&sort=stars&per_page=${Constants.PER_PAGE}&page=${page}`
+	let headers = new Headers();
+	headers.set('Authorization', 'Basic ' + btoa(username + ":" + password));
 
 	let pagesCountShow =[];
 	let totalPages = Math.ceil(totalCount / Constants.PER_PAGE);
@@ -35,16 +39,12 @@ const App = () => {
 		localStorage.setItem('inputValue', inputValue)
 		localStorage.setItem('page', page)
 	}, [inputValue, page])
-	const username = "tatar88t",
-		  password = "5135c2a3afb89f3e21e8b027d6b088221855f5fb";
-	let headers = new Headers();
-	headers.set('Authorization', 'Basic ' + btoa(username + ":" + password))
-	// const token = "5135c2a3afb89f3e21e8b027d6b088221855f5fb"
+	
+	
 	useEffect(() => {
 		setLoading(true)
-		fetch(`https://api.github.com/search/repositories?q=${debouncedInputValue}+in:name&sort=stars&per_page=${Constants.PER_PAGE}&page=${page}`,{
-			headers: headers
-		})
+		 
+		fetch(url, {headers: headers})
   		.then((response) => {
   		  return response.json();
   		})

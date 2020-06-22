@@ -12,8 +12,9 @@ function useDebounced(value, timeout) {
         return() => {
             clearTimeout(timeOutFunc)
         }
-    }, [value, timeout])
-    return debouncedValue
+    }, [value, timeout]);
+    return debouncedValue;
 }
+
 
 export default useDebounced;
